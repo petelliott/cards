@@ -13,6 +13,21 @@ def randBool():
     return random.SystemRandom().choice([True, False])
 
 
+def standardDeck():
+    standard_deck = []
+    for card_num in range(2, 15):
+        for suit in range(0, 4):
+            standard_deck.append(Card(card_num, suit))
+    return standard_deck
+
+
+def normalDist(a, b, trials):
+    out = 0
+    for n in range(0, trials):
+        out += rand(a, b)
+    return out/trials
+
+
 class Card:
     JACK = 11
     QUEEN = 12
@@ -25,8 +40,10 @@ class Card:
     DIAMONDS = 3
 
     def __init__(self, card_num, suit):
-        assert card_num in range(0, 15)
-        assert suit in range(0, 5)
+        if 0 <= card_num <= 14:
+            raise ValueError("Card number is invalid.")
+        if 0 <= suit <= 3:
+            raise ValueError("Suit is invalid.")
         self.card_num = card_num
         self.suit = suit
 
@@ -69,22 +86,12 @@ class Card:
         return self.card_num >= other.card_num
 
 
-def standardDeck():
-    standard_deck = []
-    for card_num in range(2, 15):
-        for suit in range(0, 4):
-            standard_deck.append(Card(card_num, suit))
-    return standard_deck
-
-
 class Deck:
     def __init__(self, cards=standardDeck()):
         self.cards = cards
 
     def realShuffle(self):
-        cut = int(len(self.cards)/2 + (rand(-CUT_ERROR, CUT_ERROR) +
-                                       rand(-CUT_ERROR, CUT_ERROR) +
-                                       rand(-CUT_ERROR, CUT_ERROR))/3)
+        cut = int(len(self.cards)/2 + normalDist(-CUT_ERROR, CUT_ERROR, 3))
         a = self.cards[:cut]
         b = self.cards[cut:]
         temp_deck = []
@@ -126,17 +133,13 @@ class Deck:
         self.cards.append(card)
 
     def addCardMiddle(self, card):
-        cut = int(len(self.cards)/2 + (rand(-CUT_ERROR, CUT_ERROR) +
-                                       rand(-CUT_ERROR, CUT_ERROR) +
-                                       rand(-CUT_ERROR, CUT_ERROR))/3)
+        cut = int(len(self.cards)/2 + normalDist(-CUT_ERROR, CUT_ERROR, 3))
         a = self.cards[:cut]
         b = self.cards[cut:]
         self.cards = a + [card] + b
 
     def cutDeck(self):
-        cut = int(len(self.cards)/2 + (rand(-CUT_ERROR, CUT_ERROR) +
-                                       rand(-CUT_ERROR, CUT_ERROR) +
-                                       rand(-CUT_ERROR, CUT_ERROR))/3)
+        cut = int(len(self.cards)/2 + normalDist(-CUT_ERROR, CUT_ERROR, 3))
         a = self.cards[:cut]
         b = self.cards[cut:]
         self.cards = b + a

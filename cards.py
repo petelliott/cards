@@ -40,10 +40,11 @@ class Card:
     DIAMONDS = 3
 
     def __init__(self, card_num, suit):
-        if 0 <= card_num <= 14:
+        if not (2 <= card_num <= 14):
             raise ValueError("Card number is invalid.")
-        if 0 <= suit <= 3:
+        if not (0 <= suit <= 3):
             raise ValueError("Suit is invalid.")
+
         self.card_num = card_num
         self.suit = suit
 
@@ -120,8 +121,7 @@ class Deck:
         self.cards = temp_deck
 
     def randShuffle(self):
-        temp_deck = self.cards
-        del self.cards
+        temp_deck = self.cards[:]
         self.cards = []
         while len(temp_deck) > 0:
             self.cards.append(temp_deck.pop(rand(0, len(temp_deck)-1)))
@@ -148,7 +148,26 @@ class Deck:
         out = ""
         for i in self.cards:
             out += str(i) + "\n"
-        return out
+        return out[:-1]
 
     def __len__(self):
         return len(self.cards)
+
+    def __contains__(self,item):
+        return item in self.cards
+
+    def __iter__(self):
+        return iter(self.cards)
+
+    def __eq__(self,other):
+        a = self.cards[:]
+        b = other.cards[:]
+        if len(self) != len(other):
+            return False
+        for card in a:
+            if card in b:
+                a.remove(card)
+                b.remove(card)
+            else:
+                return False
+        return True

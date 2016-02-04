@@ -118,11 +118,13 @@ class Deck:
                 if len(b) > 0:
                     temp_deck = b[-shuffle_error:] + temp_deck
                     del b[-shuffle_error:]
+
         self.cards = temp_deck
 
     def randShuffle(self):
         temp_deck = self.cards[:]
         self.cards = []
+
         while len(temp_deck) > 0:
             self.cards.append(temp_deck.pop(rand(0, len(temp_deck)-1)))
 
@@ -153,21 +155,23 @@ class Deck:
     def __len__(self):
         return len(self.cards)
 
-    def __contains__(self,item):
+    def __contains__(self, item):
         return item in self.cards
 
     def __iter__(self):
         return iter(self.cards)
 
-    def __eq__(self,other):
+    def __eq__(self, other):
         a = self.cards[:]
         b = other.cards[:]
+
         if len(self) != len(other):
             return False
         for card in a:
+
             if card in b:
                 a.remove(card)
                 b.remove(card)
-            else:
-                return False
+
+            else: return False
         return True

@@ -27,6 +27,12 @@ def normalDist(a, b, trials):
         out += rand(a, b)
     return out/trials
 
+def shuffleAlgo(func):
+    def shuff(deck):
+        array = func(deck.cards)
+        return Deck(cards=array)
+    return shuff
+
 
 class Card:
     JACK = 11

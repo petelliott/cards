@@ -56,26 +56,26 @@ class Card:
 
     def __str__(self):
         if self.card_num == self.JACK:
-            card = "Jack"
+            card = "J"
         elif self.card_num == self.QUEEN:
-            card = "Queen"
+            card = "Q"
         elif self.card_num == self.KING:
-            card = "King"
+            card = "K"
         elif self.card_num == self.ACE:
-            card = "Ace"
+            card = "A"
         else:
             card = str(self.card_num)
 
         if self.suit == self.SPADES:
-            suit = "Spades"
+            suit = "♠"
         elif self.suit == self.HEARTS:
-            suit = "Hearts"
+            suit = "♡"
         elif self.suit == self.CLUBS:
-            suit = "Clubs"
+            suit = "♣"
         elif self.suit == self.DIAMONDS:
-            suit = "Diamonds"
+            suit = "♢"
 
-        return card + " of " + suit
+        return card + suit
 
     def __eq__(self, other):
         return self.card_num == other.card_num and self.suit == other.suit

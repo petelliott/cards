@@ -18,14 +18,15 @@ def standardDeck():
     for card_num in range(2, 15):
         for suit in range(0, 4):
             standard_deck.append(Card(card_num, suit))
-    return standard_deck
+    return tuple(standard_deck)
 
 
 def normalDist(a, b, trials):
     out = 0
-    for n in range(0, trials):
+    for _ in range(0, trials):
         out += rand(a, b)
     return out/trials
+
 
 def shuffleAlgo(func):
     def shuff(deck):
@@ -46,9 +47,9 @@ class Card:
     DIAMONDS = 3
 
     def __init__(self, card_num, suit):
-        if not (2 <= card_num <= 14):
+        if not 2 <= card_num <= 14:
             raise ValueError("Card number is invalid.")
-        if not (0 <= suit <= 3):
+        if not 0 <= suit <= 3:
             raise ValueError("Suit is invalid.")
 
         self.card_num = card_num
@@ -95,7 +96,7 @@ class Card:
 
 class Deck:
     def __init__(self, cards=standardDeck()):
-        self.cards = cards
+        self.cards = list(cards)
 
     def realShuffle(self):
         cut = int(len(self.cards)/2 + normalDist(-CUT_ERROR, CUT_ERROR, 3))
@@ -179,5 +180,6 @@ class Deck:
                 a.remove(card)
                 b.remove(card)
 
-            else: return False
+            else:
+                return False
         return True

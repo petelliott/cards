@@ -133,15 +133,11 @@ class Deck(list):
 
     def addCardMiddle(self, card):
         cut = int(len(self)/2 + normalDist(-CUT_ERROR, CUT_ERROR, 3))
-        a = self[:cut]
-        b = self[cut:]
-        self = a + [card] + b
+        self = self[:cut] + [card] + self[cut:]
 
-    def cutDeck(self):
+    def cut(self):
         cut = int(len(self)/2 + normalDist(-CUT_ERROR, CUT_ERROR, 3))
-        a = self[:cut]
-        b = self[cut:]
-        self = b + a
+        self = self[cut:] + self[:cut]
 
     def __str__(self):
         out = ""

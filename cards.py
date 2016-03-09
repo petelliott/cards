@@ -14,10 +14,11 @@ def randBool():
 
 
 def standardDeck():
+    suits = ("♠", "♡", "♣", "♢")
     standard_deck = []
     for card_num in range(2, 15):
         for suit in range(0, 4):
-            standard_deck.append(Card(card_num, suit))
+            standard_deck.append(Card(card_num, suits[suit]))
     return tuple(standard_deck)
 
 
@@ -41,15 +42,15 @@ class Card:
     KING = 13
     ACE = 14
 
-    SPADES = 0
-    HEARTS = 1
-    CLUBS = 2
-    DIAMONDS = 3
+    SPADES = "♠"
+    HEARTS = "♡"
+    CLUBS = "♣"
+    DIAMONDS = "♢"
 
     def __init__(self, card_num, suit):
         if not 2 <= card_num <= 14:
             raise ValueError("Card number is invalid.")
-        if not 0 <= suit <= 3:
+        if suit not in ("♠", "♡", "♣", "♢"):
             raise ValueError("Suit is invalid.")
 
         self.card_num = card_num
@@ -67,16 +68,7 @@ class Card:
         else:
             card = str(self.card_num)
 
-        if self.suit == self.SPADES:
-            suit = "♠"
-        elif self.suit == self.HEARTS:
-            suit = "♡"
-        elif self.suit == self.CLUBS:
-            suit = "♣"
-        elif self.suit == self.DIAMONDS:
-            suit = "♢"
-
-        return card + suit
+        return card + self.suit
 
     def __eq__(self, other):
         return self.card_num == other.card_num and self.suit == other.suit

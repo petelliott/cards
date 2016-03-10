@@ -14,10 +14,11 @@ def randBool():
 
 
 def standardDeck():
+    suits = ("♠", "♡", "♣", "♢")
     standard_deck = []
     for card_num in range(2, 15):
         for suit in range(0, 4):
-            standard_deck.append(Card(card_num, suit))
+            standard_deck.append(Card(card_num, suits[suit]))
     return tuple(standard_deck)
 
 
@@ -41,15 +42,15 @@ class Card:
     KING = 13
     ACE = 14
 
-    SPADES = 0
-    HEARTS = 1
-    CLUBS = 2
-    DIAMONDS = 3
+    SPADES = "♠"
+    HEARTS = "♡"
+    CLUBS = "♣"
+    DIAMONDS = "♢"
 
     def __init__(self, card_num, suit):
         if not 2 <= card_num <= 14:
             raise ValueError("Card number is invalid.")
-        if not 0 <= suit <= 3:
+        if suit not in ("♠", "♡", "♣", "♢"):
             raise ValueError("Suit is invalid.")
 
         self.card_num = card_num
@@ -67,16 +68,7 @@ class Card:
         else:
             card = str(self.card_num)
 
-        if self.suit == self.SPADES:
-            suit = "♠"
-        elif self.suit == self.HEARTS:
-            suit = "♡"
-        elif self.suit == self.CLUBS:
-            suit = "♣"
-        elif self.suit == self.DIAMONDS:
-            suit = "♢"
-
-        return card + suit
+        return card + self.suit
 
     def __eq__(self, other):
         return self.card_num == other.card_num and self.suit == other.suit
@@ -94,14 +86,15 @@ class Card:
         return self.card_num >= other.card_num
 
 
-class Deck:
+class Deck(list):
     def __init__(self, cards=standardDeck()):
-        self.cards = list(cards)
+        super().__init__()
+        self += list(cards)
 
     def realShuffle(self):
-        cut = int(len(self.cards)/2 + normalDist(-CUT_ERROR, CUT_ERROR, 3))
-        a = self.cards[:cut]
-        b = self.cards[cut:]
+        cut = int(len(self)/2 + normalDist(-CUT_ERROR, CUT_ERROR, 3))
+        a = self[:cut]
+        b = self[cut:]
         temp_deck = []
 
         use_a = randBool()
@@ -126,51 +119,40 @@ class Deck:
                     temp_deck = b[-shuffle_error:] + temp_deck
                     del b[-shuffle_error:]
 
-        self.cards = temp_deck
+        del self[:]
+        self += temp_deck
 
     def randShuffle(self):
-        temp_deck = self.cards[:]
-        self.cards = []
+        temp_deck = self[:]
+        del self[:]
 
         while len(temp_deck) > 0:
-            self.cards.append(temp_deck.pop(rand(0, len(temp_deck)-1)))
+            self += [temp_deck.pop(rand(0, len(temp_deck)-1))]
 
     def deal(self):
-        return self.cards.pop(0)
-
-    def addCard(self, card):
-        self.cards.append(card)
+        return self.pop(0)
 
     def addCardMiddle(self, card):
-        cut = int(len(self.cards)/2 + normalDist(-CUT_ERROR, CUT_ERROR, 3))
-        a = self.cards[:cut]
-        b = self.cards[cut:]
-        self.cards = a + [card] + b
+        cut = int(len(self)/2 + normalDist(-CUT_ERROR, CUT_ERROR, 3))
+        new_deck = self[:cut] + [card] + self[cut:]
+        del self[:]
+        self += new_deck
 
-    def cutDeck(self):
-        cut = int(len(self.cards)/2 + normalDist(-CUT_ERROR, CUT_ERROR, 3))
-        a = self.cards[:cut]
-        b = self.cards[cut:]
-        self.cards = b + a
+    def cut(self):
+        cut = int(len(self)/2 + normalDist(-CUT_ERROR, CUT_ERROR, 3))
+        new_deck = self[cut:] + self[:cut]
+        del self[:]
+        self += new_deck
 
     def __str__(self):
         out = ""
-        for i in self.cards:
+        for i in self:
             out += str(i) + "\n"
         return out[:-1]
 
-    def __len__(self):
-        return len(self.cards)
-
-    def __contains__(self, item):
-        return item in self.cards
-
-    def __iter__(self):
-        return iter(self.cards)
-
     def __eq__(self, other):
-        a = self.cards[:]
-        b = other.cards[:]
+        a = self[:]
+        b = other[:]
 
         if len(self) != len(other):
             return False

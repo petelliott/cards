@@ -119,25 +119,30 @@ class Deck(list):
                     temp_deck = b[-shuffle_error:] + temp_deck
                     del b[-shuffle_error:]
 
-        self = temp_deck
+        del self[:]
+        self += temp_deck
 
     def randShuffle(self):
         temp_deck = self[:]
-        self = []
+        del self[:]
 
         while len(temp_deck) > 0:
-            self.append(temp_deck.pop(rand(0, len(temp_deck)-1)))
+            self += [temp_deck.pop(rand(0, len(temp_deck)-1))]
 
     def deal(self):
         return self.pop(0)
 
     def addCardMiddle(self, card):
         cut = int(len(self)/2 + normalDist(-CUT_ERROR, CUT_ERROR, 3))
-        self = self[:cut] + [card] + self[cut:]
+        new_deck = self[:cut] + [card] + self[cut:]
+        del self[:]
+        self += new_deck
 
     def cut(self):
         cut = int(len(self)/2 + normalDist(-CUT_ERROR, CUT_ERROR, 3))
-        self = self[cut:] + self[:cut]
+        new_deck = self[cut:] + self[:cut]
+        del self[:]
+        self += new_deck
 
     def __str__(self):
         out = ""

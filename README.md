@@ -8,7 +8,7 @@ from cards import Deck, Card
 
 deck = Deck() #creates a new standard Deck
 #or
-deck = Deck(cards=array_of_cards) #creates a deck from a Card array
+deck = Deck(cards=tuple_of_cards) #creates a deck from a Card array
 ```
 to create a card:
 ```python

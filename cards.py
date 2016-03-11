@@ -29,13 +29,6 @@ def normalDist(a, b, trials):
     return out/trials
 
 
-def shuffleAlgo(func):
-    def shuff(deck):
-        array = func(deck.cards)
-        return Deck(cards=array)
-    return shuff
-
-
 class Card:
     JACK = 11
     QUEEN = 12
@@ -156,12 +149,12 @@ class Deck(list):
 
         if len(self) != len(other):
             return False
-        for card in a:
 
+        for card in a:
             if card in b:
                 a.remove(card)
                 b.remove(card)
-
             else:
                 return False
+
         return True

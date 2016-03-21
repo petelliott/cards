@@ -26,7 +26,7 @@ def normalDist(a, b, trials):
     out = 0
     for _ in range(0, trials):
         out += rand(a, b)
-    return out/trials
+    return out // trials
 
 
 class Card:
@@ -85,7 +85,7 @@ class Deck(list):
         self += list(cards)
 
     def realShuffle(self):
-        cut = int(len(self)/2 + normalDist(-CUT_ERROR, CUT_ERROR, 3))
+        cut = len(self)//2 + normalDist(-CUT_ERROR, CUT_ERROR, 3)
         a = self[:cut]
         b = self[cut:]
         temp_deck = []
@@ -126,13 +126,13 @@ class Deck(list):
         return self.pop(0)
 
     def addCardMiddle(self, card):
-        cut = int(len(self)/2 + normalDist(-CUT_ERROR, CUT_ERROR, 3))
+        cut = len(self)//2 + normalDist(-CUT_ERROR, CUT_ERROR, 3)
         new_deck = self[:cut] + [card] + self[cut:]
         del self[:]
         self += new_deck
 
     def cut(self):
-        cut = int(len(self)/2 + normalDist(-CUT_ERROR, CUT_ERROR, 3))
+        cut = len(self)//2 + normalDist(-CUT_ERROR, CUT_ERROR, 3)
         new_deck = self[cut:] + self[:cut]
         del self[:]
         self += new_deck

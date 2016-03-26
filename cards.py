@@ -119,7 +119,7 @@ def realShuffle(deck):
 class Deck(list):
     def __init__(self, cards=standardDeck()):
         super().__init__()
-        self += list(cards)  
+        self += list(cards)
 
     def deal(self):
         return self.pop(0)

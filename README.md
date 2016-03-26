@@ -1,5 +1,5 @@
 ## about
-cards is python 3 module that simulates a deck of cards. It's main feature is `Deck.realShuffle()` which attempts to simulate human shuffling. It is available under the MIT License.
+cards is python 3 module that simulates a deck of cards. It's main feature is `realShuffle()` which attempts to simulate human shuffling. It is available under the MIT License.
 
 ## usage
 to create a Deck:

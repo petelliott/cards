@@ -137,10 +137,8 @@ class Deck(list):
         self += new_deck
 
     def __str__(self):
-        out = ""
-        for i in self:
-            out += str(i) + "\n"
-        return out[:-1]
+        out = [str(s) for s in self]
+        return "\n".join(out)
 
     def __eq__(self, other):
         a = self[:]

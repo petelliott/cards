@@ -63,6 +63,9 @@ class Card:
 
         return card + self.suit
 
+    def __repr__(self):
+        return str(self)
+
     def __eq__(self, other):
         return self.card_num == other.card_num and self.suit == other.suit
 
@@ -115,6 +118,17 @@ def realShuffle(deck):
                 deck.extend(b[-shuffle_error:])
                 del b[-shuffle_error:]
 
+def dealDeck(deck, piles, cardnumber=-1):
+    stacks = []
+    cardsDelt = 0
+    
+    for _ in range(piles):
+        stacks.append([])
+
+    while len(deck) > 0 and (cardsDelt < piles*cardnumber or cardnumber < 0):
+        stacks[cardsDelt%piles].append(deck.deal())
+        cardsDelt += 1
+    return stacks
 
 class Deck(list):
     def __init__(self, cards=standardDeck()):
